@@ -7,15 +7,16 @@ let state = {};
 function startGame() {
   state = {};
   showTextNode(1);
+  
+
 };
-
-
 
 function showTextNode(textNodeIndex) {
    const textNode = textNodes.find(textNode => textNode.id === textNodeIndex);
    textElement.innerText = textNode.text;
    while (optionButtonsElement.firstChild) {
-    optionButtonsElement.removeChild(optionButtonsElement.firstChild)
+    optionButtonsElement.removeChild(optionButtonsElement.firstChild);
+   
    }
    textNode.options.forEach(option => {
     if (showOption(option)) {
@@ -24,8 +25,38 @@ function showTextNode(textNodeIndex) {
         button.classList.add('btn');
         button.addEventListener('click', () => selectOption(option));
         optionButtonsElement.appendChild(button);
+        
+        // experimental code for button fade in
+
+        const buttonTimeLine = gsap.timeline({ defaults: {duration: 7}});
+        buttonTimeLine
+        .fromTo('.btn', {opacity: 0}, {opacity: 1});
+
+        // Experimental code to animate id text
+
+            let intro = document.getElementById('text');
+            let introText = intro.textContent;
+            let splitText = introText.split("");
+            text.textContent = "";
+            
+            
+            let i = 0;
+            let txt = introText;
+            let speed = 50;
+            
+            function typeWriter() {
+                if (i < txt.length) {
+                    document.getElementById("text").innerHTML += txt.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, speed);
+                    }
+                }
+
+            setTimeout(typeWriter, 1500);
+
     }
    })
+    
 };
 
 function showOption(option) {
@@ -131,7 +162,7 @@ const textNodes = [
                 options: [
                     {
                         text: 'Continue journey',
-                        nextText: -1, // this line will be changed
+                        nextText: -1, // this line will be changed as the narrative grows
                     }
                     
                 ]
@@ -152,7 +183,7 @@ const textNodes = [
 
 startGame();
 
-// Animate Game Title
+//Animate Game Title
 
 let myContainer = document.querySelector(".header1");
 
@@ -164,7 +195,7 @@ let speeds = {
 }
 let textLines = [
   { string: "Save", speed: speeds.normal },
-  { string: "Benny Bunny", speed: speeds.fast, classes:['white'] },
+  { string: "Benny Bunny", speed: speeds.normal, classes:['white'] },
   { string: "Now!", speed: speeds.normal},
 
 ]
@@ -252,6 +283,14 @@ timeline
       music.overworld.pause();
 
  
- })
+ });
+
+
+
+
+
+
+
+
 
 
