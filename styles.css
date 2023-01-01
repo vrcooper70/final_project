@@ -12,6 +12,8 @@ body {
     align-items: center;
     width: 100vw;
     height: 100vh;
+    /* experimental code */
+    /* background: linear-gradient(180deg, white, green); */
     background-image: url('StormyDay.png');
     background-size: cover;
 }
@@ -32,7 +34,6 @@ body {
     box-shadow: 0 0 10px 2px;
     padding: 10px;
     border-radius: 5px;
-
 }
 
 .btn-grid {
@@ -52,21 +53,15 @@ body {
     outline: none;
 }
 
-
-
 .btn:hover {
     border-color: yellow;
 }
-
-
 
  .header1 {
     color:#efef5a;
     margin-top: 10px;
   
 } 
-
-
 
 .header1 span {
     opacity: 0;
@@ -82,6 +77,9 @@ body {
 
 .music .btn {
     border-radius: 5px;
+}
 
+#text {
+    color:#f5fcf5;
 }
 

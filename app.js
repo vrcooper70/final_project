@@ -3,12 +3,9 @@ const optionButtonsElement = document.getElementById('option-buttons');
 
 let state = {};
 
-
 function startGame() {
   state = {};
   showTextNode(1);
-  
-
 };
 
 function showTextNode(textNodeIndex) {
@@ -17,6 +14,9 @@ function showTextNode(textNodeIndex) {
    while (optionButtonsElement.firstChild) {
     optionButtonsElement.removeChild(optionButtonsElement.firstChild);
    
+    // beginning of working experimental code to change background image below
+        changeBackgroundImage(textNode);
+    // end of experimental code for change background image above
    }
    textNode.options.forEach(option => {
     if (showOption(option)) {
@@ -25,42 +25,46 @@ function showTextNode(textNodeIndex) {
         button.classList.add('btn');
         button.addEventListener('click', () => selectOption(option));
         optionButtonsElement.appendChild(button);
-        
-        // experimental code for button fade in
+
+        // Working experimental code for button fade in
 
         const buttonTimeLine = gsap.timeline({ defaults: {duration: 7}});
         buttonTimeLine
         .fromTo('.btn', {opacity: 0}, {opacity: 1});
 
-        // Experimental code to animate id text
+        // Working experimental code to animate id text
 
             let intro = document.getElementById('text');
             let introText = intro.textContent;
             let splitText = introText.split("");
             text.textContent = "";
             
-            
             let i = 0;
             let txt = introText;
-            let speed = 50;
+            let speed = 100;  // 50
+            
             
             function typeWriter() {
                 if (i < txt.length) {
                     document.getElementById("text").innerHTML += txt.charAt(i);
                     i++;
+                   
                     setTimeout(typeWriter, speed);
+                    
                     }
+
                 }
-
-            setTimeout(typeWriter, 1500);
-
+                setTimeout(typeWriter, 1500);  
+                setTimeout(typing, 1400);
+                
     }
-   })
-    
+     
+   }) 
 };
 
 function showOption(option) {
     return option.requiredState == null || option.requiredState(state);
+   
 };
 
 function selectOption(option) {
@@ -70,12 +74,13 @@ function selectOption(option) {
     }
     state = Object.assign(state, option.setState);
     showTextNode(nextTextNodeId);
+    
 };
 
 const textNodes = [
     {
         id: 1,
-        text: `You see Benny Bunny being swept away by a tornado!`,
+        text: `You see Benny Bunny being swept away by a tornado! What will you do?`,
         options: [
             {
                 text: `You follow the tornado to the South.`,
@@ -86,12 +91,12 @@ const textNodes = [
                 text: `You run to your basement and hide.`,
                 nextText: 7,
             },
-        ]
+        ],
+        
     },
     {   
         id: 2,
-        text: `You venture forth to the South in search of Benny Bunny where you 
-        encounter a wizard.`,
+        text: `You venture South in search of Benny Bunny and encounter a wizard.`,
         options: [
             {
                 text: `You ask the wizard for the golden wand and he gives it to you.`,
@@ -109,7 +114,8 @@ const textNodes = [
                 text: `Ignore the wizard.`,
                 nextText: 3,
             },
-        ]
+        ],
+        
         },
     
         {   
@@ -129,54 +135,57 @@ const textNodes = [
                     nextText: 6,
                 },
                 
-            ]
+            ],
+           
             },
 
             {
                 id: 4,
-                text: `You are so tired that you fall asleep while exploring the barn
-                and are killed by a rabid cow in your sleep.`,
+                text: `You step into a hole and fall to your death while exploring the barn.`,
                 options: [
                     {
                         text: 'Restart',
                         nextText: -1,
                     }
                     
-                ]
+                ],
+            
             },
             {
                 id: 5,
-                text: `You sneak into the farmhouse and eat some chocolate cookies and drink milk. You are caught by the owner who then calls the police.
-                You are sent to prison.`,
+                text: `You sneak into the farmhouse but are soon caught and sent to jail.`,
                 options: [
                     {
                         text: 'Restart',
                         nextText: -1,
                     }
                     
-                ]
+                ],
+                
             },
             {
                 id: 6,
-                text: `You wake up very well rested and are ready to continue your search for Benny Bunny.`,
+                text: `You wake up well rested and are ready to continue your search.`,
                 options: [
                     {
                         text: 'Continue journey',
                         nextText: -1, // this line will be changed as the narrative grows
                     }
                     
-                ]
+                ],
+                
             },
             {
                 id: 7,
-                text: `No worries. Someone else will save Benny Bunny!`,
+                text: `So, you're a coward! No worries. Someone else will save Benny Bunny!`,
                 options: [
                     {
                         text: 'Restart',
                         nextText: -1,
                     }
                     
-                ]
+                ],
+                
             },
     
 ];
@@ -243,7 +252,9 @@ revealOneCharacter(characters);
 
 const timeline = gsap.timeline({ defaults: { duration: 1}})
 timeline
-    .fromTo('#bunny', { opacity: 0, scale: 0, rotation: 720 }, {opacity: 1, scale: 1, rotation: 0});
+    .fromTo('#bunny', { opacity: 0, scale: 0, rotation: 720 }, {opacity: 1, scale: 1, rotation: 0 });
+
+    
 
     const bunny = document.querySelector('#bunny') 
 
@@ -252,27 +263,22 @@ timeline
         timeline.reverse();
     });
 
-
     // Experimental code for sound effects
 
-
     let music = {
-        overworld: new Howl({
+        introduction: new Howl({
 
             src: [
                 "/Save-Benny-Bunny.mp3",
-                
             ],
         })   
         
     };
-
-   //sfx.play();
-
+ 
    // start music
    document.querySelector('.play-music').addEventListener('click', function() {
-      if(!music.overworld.playing()) {
-        music.overworld.play();
+      if(!music.introduction.playing()) {
+        music.introduction.play();
       }
    
    })
@@ -280,10 +286,48 @@ timeline
    // pause music
    document.querySelector('.stop-music').addEventListener('click', function() {
    
-      music.overworld.pause();
+      music.introduction.pause();
 
- 
  });
+
+  
+ // Working experimental code for changing background image
+
+ function changeBackgroundImage(textNode) {
+
+ if(textNode.id === 1) {
+    document.body.style.backgroundImage = "url('StormyDay.png')";
+} else if(textNode.id === 2){
+    document.body.style.backgroundImage = "url('Wizard.jpeg')";
+} else if(textNode.id === 3) {
+    document.body.style.backgroundImage = "url('Barn.jpeg')";
+} else if(textNode.id === 4) {
+    document.body.style.backgroundImage = "url('Barn-Interior.jpeg')";
+} else if(textNode.id === 5) {
+    document.body.style.backgroundImage = "url('Prison.jpeg')";
+}
+
+else {
+    document.body.style.backgroundImage = "url('StormyDay.png')";
+    }
+};
+
+// Experimental code for adding typing sound effect to text
+
+let audio = {
+        typing: new Howl({
+
+            src: [
+                "/Typewriter.mp3",
+            ],
+        })   
+        
+    };
+let toPlay = true;
+
+function typing() {
+  audio.typing.play();
+  }
 
 
 
