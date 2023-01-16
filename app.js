@@ -81,6 +81,7 @@ const textNodes = [
     {
         id: 1,
         text: `You see Benny Bunny being swept away by a tornado! What will you do?`,
+        url: `url('StormyDay.png')`,
         options: [
             {
                 text: `You follow the tornado to the South.`,
@@ -89,7 +90,7 @@ const textNodes = [
             },
             {
                 text: `You run to your basement and hide.`,
-                nextText: 7,
+                nextText: 6,
             },
         ],
         
@@ -97,6 +98,7 @@ const textNodes = [
     {   
         id: 2,
         text: `You venture South in search of Benny Bunny and encounter a wizard.`,
+        url: `url('Wizard.jpeg')`,
         options: [
             {
                 text: `You ask the wizard for the golden wand and he gives it to you.`,
@@ -121,6 +123,7 @@ const textNodes = [
         {   
             id: 3,
             text: `After leaving the wizard you are very tired and stumble upon a barn.`,
+            url: `url('Barn.jpeg')`,
             options: [
                 {
                     text: `Explore the barn.`,
@@ -142,6 +145,7 @@ const textNodes = [
             {
                 id: 4,
                 text: `You step into a hole and fall to your death while exploring the barn.`,
+                url: `url('Barn-Interior.jpeg')`,
                 options: [
                     {
                         text: 'Restart',
@@ -154,6 +158,7 @@ const textNodes = [
             {
                 id: 5,
                 text: `You sneak into the farmhouse but are soon caught and sent to jail.`,
+                url: `url('Prison.jpeg')`,
                 options: [
                     {
                         text: 'Restart',
@@ -163,21 +168,12 @@ const textNodes = [
                 ],
                 
             },
+          
+
             {
                 id: 6,
-                text: `You wake up well rested and are ready to continue your search.`,
-                options: [
-                    {
-                        text: 'Continue journey',
-                        nextText: -1, // this line will be changed as the narrative grows
-                    }
-                    
-                ],
-                
-            },
-            {
-                id: 7,
                 text: `So, you're a coward! No worries. Someone else will save Benny Bunny!`,
+                url: `url('Forest-in-distance.jpeg')`,
                 options: [
                     {
                         text: 'Restart',
@@ -187,6 +183,8 @@ const textNodes = [
                 ],
                 
             },
+ 
+           
     
 ];
 
@@ -290,31 +288,21 @@ timeline
 
  });
 
-  
- // Working experimental code for changing background image
+function changeBackgroundImage(textNode) {
+   
+    if(textNode.id > 6) {
+        document.body.style.backgroundImage = "url('StormyDay.png')";
+    } else {
 
- function changeBackgroundImage(textNode) {
-
- if(textNode.id === 1) {
-    document.body.style.backgroundImage = "url('StormyDay.png')";
-} else if(textNode.id === 2){
-    document.body.style.backgroundImage = "url('Wizard.jpeg')";
-} else if(textNode.id === 3) {
-    document.body.style.backgroundImage = "url('Barn.jpeg')";
-} else if(textNode.id === 4) {
-    document.body.style.backgroundImage = "url('Barn-Interior.jpeg')";
-} else if(textNode.id === 5) {
-    document.body.style.backgroundImage = "url('Prison.jpeg')";
-}
-
-else {
-    document.body.style.backgroundImage = "url('StormyDay.png')";
-    }
+        document.body.style.backgroundImage = textNode.url;
+    } 
 };
 
 // Experimental code for adding typing sound effect to text
 
-let audio = {
+function typing() {
+ 
+    let audio = {
         typing: new Howl({
 
             src: [
@@ -323,10 +311,8 @@ let audio = {
         })   
         
     };
-let toPlay = true;
-
-function typing() {
-  audio.typing.play();
+ 
+    audio.typing.play();
   }
 
 
